@@ -1,0 +1,56 @@
+/* Look and feel lives in these tokens. When creative delivers the design, start here. */
+:root {
+  --color-bg: #ffffff;
+  --color-surface: #f6f7f9;
+  --color-text: #1b1f24;
+  --color-muted: #5d6673;
+  --color-primary: #1f5eff;
+  --color-primary-contrast: #ffffff;
+  --color-border: #dfe3e8;
+  --color-error: #b42318;
+  --radius: 10px;
+  --space: 1rem;
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--font); color: var(--color-text); background: var(--color-bg); line-height: 1.5; }
+a { color: inherit; }
+img { max-width: 100%; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 var(--space); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+.header { border-bottom: 1px solid var(--color-border); background: var(--color-surface); }
+.header__row { display: flex; gap: var(--space); align-items: center; justify-content: space-between; padding-top: var(--space); padding-bottom: 0.5rem; flex-wrap: wrap; }
+.brand { font-weight: 700; font-size: 1.25rem; text-decoration: none; }
+.nav { display: flex; gap: 1.25rem; padding-bottom: 0.75rem; flex-wrap: wrap; }
+.nav a { text-decoration: none; color: var(--color-muted); }
+.nav a.active { color: var(--color-primary); font-weight: 600; }
+
+.search { display: flex; gap: 0.5rem; }
+input, textarea { font: inherit; padding: 0.55rem 0.7rem; border: 1px solid var(--color-border); border-radius: var(--radius); width: 100%; }
+.search input { min-width: 14rem; }
+button { font: inherit; padding: 0.55rem 1rem; border: 0; border-radius: var(--radius); background: var(--color-primary); color: var(--color-primary-contrast); cursor: pointer; }
+button:disabled { opacity: 0.6; cursor: progress; }
+:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 2px; }
+
+.grid { list-style: none; padding: 0; margin: 0 0 2rem; display: grid; gap: var(--space); grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+.card { border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; background: var(--color-bg); }
+.card__link { display: flex; flex-direction: column; gap: 0.35rem; padding: var(--space); text-decoration: none; height: 100%; }
+.card__image { height: 160px; object-fit: contain; }
+.card__category { color: var(--color-muted); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.card__title { margin: 0; font-size: 1rem; }
+.card__meta { display: flex; justify-content: space-between; margin-top: auto; }
+
+.product { display: grid; gap: 2rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 800px) { .product { grid-template-columns: 1fr 1.2fr; } }
+.product__image { max-height: 420px; object-fit: contain; margin: 0 auto; display: block; }
+.product__price { font-size: 1.5rem; font-weight: 700; margin: 0.25rem 0; }
+
+.enquiry { margin-top: 1.5rem; padding: var(--space); background: var(--color-surface); border-radius: var(--radius); }
+.field { margin-bottom: var(--space); }
+.field label { display: block; margin-bottom: 0.25rem; font-weight: 600; }
+.field__error { color: var(--color-error); font-size: 0.875rem; }
+.thanks { margin-top: 1.5rem; padding: var(--space); border-radius: var(--radius); background: #e8f7ee; }
+.status { color: var(--color-muted); }
+.status--error { color: var(--color-error); }

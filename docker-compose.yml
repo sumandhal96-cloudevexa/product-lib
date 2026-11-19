@@ -1,0 +1,35 @@
+# One command: docker compose up --build
+#   Web app      http://localhost:8080
+#   Mail inbox   http://localhost:8025   (Mailpit: catches every enquiry email, nothing leaves your machine)
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+
+  backend:
+    build: ./backend
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PORT: "3000"
+      SMTP_HOST: mailpit
+      SMTP_PORT: "1025"
+      MAIL_FROM: ${MAIL_FROM:-catalogue@example.com}
+      SALES_INBOX_EMAIL: ${SALES_INBOX_EMAIL:-sales@example.com}
+      FEATURED_PRODUCT_IDS: ${FEATURED_PRODUCT_IDS:-3,5,7,11,12}
+      FAKE_STORE_BASE_URL: ${FAKE_STORE_BASE_URL:-https://fakestoreapi.com}
+      CORS_ORIGINS: http://localhost:8080
+      TRUST_PROXY: "1" # one hop: the nginx container in front of the API
+    depends_on:
+      - mailpit
+
+  mailpit:
+    image: axllent/mailpit:v1.21
+    ports:
+      - "8025:8025" # web UI
+      - "1025:1025" # SMTP (also usable from `npm run dev` on the host)
