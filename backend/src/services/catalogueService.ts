@@ -16,6 +16,13 @@ export interface CategoryListing {
   additional: Product[];
 }
 
+function searchTokens(value: string): string[] {
+  return value
+    .toLowerCase()
+    .replace(/['’]s\b/g, '')
+    .match(/[\p{L}\p{N}]+/gu) ?? [];
+}
+
 export class CatalogueService {
   private readonly provider: ProductProvider;
   private readonly options: CatalogueOptions;
@@ -65,17 +72,16 @@ export class CatalogueService {
     };
   }
 
-  /** Case-insensitive substring match on title, description or category. */
+  /** Case-insensitive whole-keyword match across title, description and category. */
   async search(term: string): Promise<Product[]> {
-    const needle = term.trim().toLowerCase();
-    if (!needle) return [];
+    const keywords = [...new Set(searchTokens(term))];
+    if (keywords.length === 0) return [];
+
     const all = await this.provider.listProducts();
-    return all.filter(
-      (p) =>
-        p.title.toLowerCase().includes(needle) ||
-        p.description.toLowerCase().includes(needle) ||
-        p.category.toLowerCase().includes(needle),
-    );
+    return all.filter((product) => {
+      const productWords = new Set(searchTokens(`${product.title} ${product.description} ${product.category}`));
+      return keywords.every((keyword) => productWords.has(keyword));
+    });
   }
 
   async getProduct(id: number): Promise<Product> {
